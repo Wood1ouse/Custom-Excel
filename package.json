@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "mini-css": "^1.0.3"
+    "mini-css": "^1.0.3",
+    "normalize.css": "^8.0.1"
   }
 }
