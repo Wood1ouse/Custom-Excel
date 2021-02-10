@@ -4,7 +4,7 @@ export class Header extends ExcelComponent {
     static className = 'excel__header'
     toHTML() {
       return `
-        <input type = "text" class="input" placeholder="Новая таблица">
+        <input type = "text" class="input" placeholder="Новая Таблица">
             <div>
                 <div class="button">
                     <span class="material-icons">delete</span>
