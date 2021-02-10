@@ -1,16 +1,32 @@
-const path = require('path')
+const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const isProd = process.env.NODE_ENV === 'production'
-const isDev = !isProd
+const isProd = process.env.NODE_ENV === 'production';
+const isDev = !isProd;
 
-const filename = (ext) => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
+const filename = (ext) => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`;
 
-console.log('IS PROD', isProd)
-console.log('IS DEV', isDev)
+const jsLoaders = () => {
+  const loaders = [
+    {
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-env'],
+        plugins: ['@babel/plugin-proposal-class-properties'],
+      },
+    },
+  ];
+
+
+  return loaders;
+};
+
+
+console.log('IS PROD', isProd);
+console.log('IS DEV', isDev);
 
 
 module.exports = {
@@ -63,14 +79,11 @@ module.exports = {
         ],
       },
       {
-        test: /\.m?js$/,
+        test: /\.?js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-        },
+        use: jsLoaders(),
       },
     ],
   },
 
-}
+};
