@@ -25,6 +25,10 @@ export class DomListener {
     });
   }
 
+  css(listener = {}) {
+
+  }
+
   removeDomListeners() {
     this.listeners.forEach((listener) => {
       const method = getMethodName(listener);
