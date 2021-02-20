@@ -16,7 +16,7 @@ export class Emitter {
     }
   }
   // on, listen, ...
-  // подписываемся на увдомления либо добавляем нового слушателя
+  // подписываемся на уведомления либо добавляем нового слушателя
   // formula.subscribe('table:select', () => {})
   subscribe(event, fn) {
     this.listeners[event] = this.listeners[event] || [];

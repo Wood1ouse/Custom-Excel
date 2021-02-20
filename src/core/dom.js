@@ -1,9 +1,8 @@
 class Dom {
   constructor(selector) {
-    this.$$listeners = {};
     this.$el = typeof selector === 'string' ?
-        document.querySelector(selector) :
-        selector;
+      document.querySelector(selector) :
+      selector;
   }
 
   html(html) {
@@ -15,7 +14,7 @@ class Dom {
   }
 
   text(text) {
-    if (typeof text === 'string') {
+    if (typeof text !== 'undefined') {
       this.$el.textContent = text;
       return this;
     }
@@ -38,32 +37,34 @@ class Dom {
     this.$el.removeEventListener(eventType, callback);
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
   append(node) {
     if (node instanceof Dom) {
       node = node.$el;
     }
+
     if (Element.prototype.append) {
       this.$el.append(node);
     } else {
       this.$el.appendChild(node);
     }
+
     return this;
-  }
-
-  find(selector) {
-    return $(this.$el.querySelector(selector));
-  }
-
-  closest(selector) {
-    return $(this.$el.closest(selector) );
-  }
-
-  getCoords() {
-    return this.$el.getBoundingClientRect();
   }
 
   get data() {
     return this.$el.dataset;
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect();
   }
 
   findAll(selector) {
@@ -71,17 +72,18 @@ class Dom {
   }
 
   css(styles = {}) {
-    for (const [key, value] of Object.entries(styles)) {
-      this.$el.style[`${key}`] = `${value}`;
-    }
+    Object
+        .keys(styles)
+        .forEach((key) => {
+          this.$el.style[key] = styles[key];
+        });
   }
 
-  addClass(className) {
-    this.$el.classList.add(className);
-  }
-
-  removeClass(className) {
-    this.$el.classList.remove(className);
+  getStyles(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s];
+      return res;
+    }, {});
   }
 
   id(parse) {
@@ -99,9 +101,26 @@ class Dom {
     this.$el.focus();
     return this;
   }
+
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+    return this.$el.getAttribute(name);
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className);
+    return this;
+  }
 }
 
-// event.target
 export function $(selector) {
   return new Dom(selector);
 }
