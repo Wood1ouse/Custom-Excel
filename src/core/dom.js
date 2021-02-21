@@ -119,6 +119,10 @@ class Dom {
     this.$el.classList.remove(className);
     return this;
   }
+  clear() {
+    this.html('');
+    return this;
+  }
 }
 
 export function $(selector) {
